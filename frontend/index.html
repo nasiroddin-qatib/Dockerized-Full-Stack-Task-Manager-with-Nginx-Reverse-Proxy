@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+    .container { margin-top: 40px; }
+    input, select {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 10px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .card {
+      background: #1e293b;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Task Manager</h1>
+
+    <input id="title" placeholder="Task Title">
+    <input id="desc" placeholder="Description">
+    <select id="status">
+      <option>pending</option>
+      <option>in-progress</option>
+      <option>done</option>
+    </select>
+    <button onclick="addTask()">Add Task</button>
+
+    <h2>Tasks</h2>
+    <div id="tasks"></div>
+  </div>
+
+<script>
+const API = "/api";
+
+function loadTasks() {
+  fetch(API + "/tasks")
+    .then(res => res.json())
+    .then(data => {
+      let html = "";
+      data.forEach(t => {
+        html += `<div class="card">
+          <b>${t.title}</b> - ${t.status}
+          <br>${t.description}
+          <br>
+          <button onclick="deleteTask(${t.id})">Delete</button>
+        </div>`;
+      });
+      document.getElementById("tasks").innerHTML = html;
+    });
+}
+
+function addTask() {
+  fetch(API + "/tasks", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      title: document.getElementById("title").value,
+      description: document.getElementById("desc").value,
+      status: document.getElementById("status").value
+    })
+  }).then(loadTasks);
+}
+
+function deleteTask(id) {
+  fetch(API + "/tasks/" + id, { method: "DELETE" })
+    .then(loadTasks);
+}
+
+loadTasks();
+</script>
+</body>
+</html>
