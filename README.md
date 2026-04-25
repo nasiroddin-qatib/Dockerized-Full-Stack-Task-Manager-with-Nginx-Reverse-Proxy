@@ -108,17 +108,17 @@ http://localhost
 ## 📸 Project Screenshots
 
 ### Application Output
-![App](app-browser-output.png)
+![App](Screenshots/app-browser-output.png)
 
 ---
 
 ### EC2 / Deployment Environment
-![EC2](EC2-server.png)
+![EC2](Screenshots/EC2-server.png)
 
 ---
 
 ### Project Structure
-![Tree](tree.png)
+![Tree](Screenshots/tree.png)
 ---
 
 ## 🎯 What This Project Demonstrates
